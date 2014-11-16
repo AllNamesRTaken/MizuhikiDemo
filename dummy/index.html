@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<style>
+	html {
+		height: 100%;
+	}
+	body {
+		width: 100%;
+		height: 100%;
+		position: relative;
+		vertical-align: middle;
+		text-align: center;
+	}
+	</style>
+	<link rel="stylesheet" type="text/css" href="dijit/themes/claro/claro.css">
+</head>
+<body class="claro">
+	<script type="text/javascript">
+	 	var dojoConfig = {
+	 		async: true,
+	    baseUrl: '.',
+	    paths: {
+	        clazzy: './clazzy',
+	        underscore: './clazzy/underscore',
+	        mizuhiki: './mizuhiki',
+	        dojo: './dojo',
+	        dijit: './dijit',
+	    }
+	  };
+	</script>
+	<script src="dojo/dojo.js"></script>
+	<script type="text/javascript" defer>
+		require(["clazzy/IoC", "clazzy/Clazzy", "clazzy/Deferred", "mizuhiki/Mizuhiki", "mizuhiki/TemplatedObject", "dojo/cache", "mizuhiki/MizuhikiMeta", "mizuhiki/abstraction/Lang"], function(IoC, Class, Deferred, mizu, templated, cache, meta, lang) {
+			Class("ns.MyControl", mizuhiki.TemplatedObject, ["MizuControl"], {
+				constructor: function() {
+					this.addModel({
+						tempstring: "",
+						title: "My Fav Languages",
+						langlist: ["Nim", "Javascript", "CoffeeScript"],
+						extraProps: {level: "newb"}
+					});
+				},
+				addLang:function(lang){
+					var len = this.get("langlist").length;
+					this.set("langlist", lang, len);
+					console.log("adding " + lang.toString() + " to fav langs");
+				},
+				removeLang:function(index){
+					var newArr = this.get("langlist").slice();
+					var removed = newArr.splice(index, 1)
+					this.set("langlist", newArr);
+					console.log("removing " + removed[0].toString() + " from fav langs");
+				},
+				triggerChange: function(ev) {
+					lang.event.emit(ev.target, "change");
+				}
+			});
+
+			// Setup the IoC registies
+			IoC.register("IRenderer", "mizuhiki.Mizuhiki");
+			IoC.register("IRendererMeta", "mizuhiki.MizuhikiMeta");
+			IoC.register("IMyControl", "ns.MyControl");
+	    IoC.registerTemplate("MyTemplate", "ns.MyControl", cache(new dojo._Url("SomeTemplate.html")));
+
+			IoC.get("IMyControl", {Id: "myControl", AttachPoint: "body"}).then(function(control){
+				window.myControl = control;
+				control.render();
+				control.addLang("F#");
+				control.addLang("C#");
+				control.removeLang(1);
+			});
+			window.IoC = IoC;
+
+			// all objects are global so that you may play around with them :)
+		});
+	</script>
+</body>
+</html>

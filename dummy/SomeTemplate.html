@@ -1,0 +1,29 @@
+<div id="{{Id}}">
+    <h1 data-bind-to="Text"> {{title}} </h1>
+    <input type="text" value="{{Text}}" data-dojo-type="dijit.form.TextBox" data-dojo-props="trim:true, propercase:true" id="{{Id}}_input" data-attach-event="keyup:triggerChange" data-bind-to="tempstring"/>
+    <br />
+    <button type="button" id="{{Id}}_button" data-dojo-type="dijit.form.Button" data-attach-event="click:addNewLang">Add new lang</button>
+    <br />
+    {{#langlist}}
+        <div data-bind-to="langlist" data-bind-to-key="text" data-index={{_}} id="{{Id}}arr{{_}}">
+        {{text}}
+        </div>
+    {{/langlist}}
+    <hr>
+    <h3>Below are more useful templating</h3>
+    {{^notSet}}
+        notSet wasnt set
+    {{/notSet}}
+    <br />
+    {{! ignore me }} was ignored
+    <br />
+    {{#extraProps}}
+        {{level}}
+    {{/extraProps}}
+    <br />
+    Changing tags
+    {{=<< >>=}}
+    <<#shoutIt>>
+        bazinga
+    <</shoutIt>>
+</div>

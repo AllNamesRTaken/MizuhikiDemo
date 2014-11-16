@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<style>
+	html {
+		height: 100%;
+	}
+	body {
+		width: 100%;
+		height: 100%;
+		position: relative;
+		vertical-align: middle;
+		text-align: center;
+	}
+	.todolist {
+		display: inline-block;
+		vertical-align: top;
+	}
+	</style>
+	<link rel="stylesheet" type="text/css" href="dijit/themes/claro/claro.css">
+</head>
+<body class="claro">
+	<script type="text/javascript">
+	 	var dojoConfig = {
+	 		async: true,
+	    baseUrl: '.',
+	    paths: {
+	        clazzy: './clazzy',
+	        underscore: './clazzy/underscore',
+	        mizuhiki: './mizuhiki',
+	        dojo: './dojo',
+	        dijit: './dijit',
+	    }
+	  };
+	</script>
+	<script src="dojo/dojo.js"></script>
+	<script type="text/javascript" defer>
+		require(["clazzy/IoC", "todo"], function(IoC, todo) { 
+			IoC.get("ITodo", {Id: "todolist", AttachPoint: "body"}).then(function(control){
+				control.render();
+			});
+			IoC.get("ITodo", {Id: "todolist2", AttachPoint: "body", titles: {title:"Todo List2", addnew:"Add new item", remove:"Remove"}}).then(function(control){
+				control.render();
+			});
+		});
+	</script>
+</body>
+</html>

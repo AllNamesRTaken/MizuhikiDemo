@@ -1,0 +1,16 @@
+<div class="todolist" id="{{Id}}">
+    <h1 data-bind-to="Text"> {{titles.title}} </h1>
+    <input type="text" value="{{Text}}" data-dojo-type="dijit.form.TextBox" data-dojo-props="trim:true, propercase:true" id="{{Id}}_input" data-attach-event="keyup:triggerChange" data-bind-to="tempstring"/>
+    <br>
+    <button type="button" id="{{Id}}_addnew" data-dojo-type="dijit.form.Button" data-attach-event="click:addTodo">{{titles.addnew}}</button>
+    <br>
+    <br>
+    {{#todos}}
+        <div class="todoitem">
+            <span data-bind-to="todos" data-bind-to-key="text" data-index={{_}} id="{{Id}}todo{{_}}">
+            {{text}}
+            </span>
+            <button type="button" id="{{Id}}_remove{{_}}" data-dojo-type="dijit.form.Button" data-attach-event="click:removeTodo" data-index={{_}}>{{titles.remove}}</button>
+        </div>
+    {{/todos}}
+</div>
